@@ -28,64 +28,108 @@ function getHumanChoice(){
 
 }
 
+let resultsBox = document.querySelector('.results');
+let result;
+let round = 1;
+let computerScoreTracker = document.querySelector('.computerScore');
+let humanScoreTracker = document.querySelector('.humanScore');
+let winner = document.querySelector('.winner');
+
 function playGame(){
 
     let humanScore = 0;
     let computerScore = 0;
+    
 
     function playRound(humanChoice, computerChoice){
         if(humanChoice == "scissors" && computerChoice == "rock"){
-            console.log("You lose! Rock beats Scissors :/");
+            result = "You lose! Rock beats Scissors :/";
             computerScore++;
         }
         else if (humanChoice == "scissors" && computerChoice == "paper"){
-            console.log("You win! Scissors beats Paper :)");
+            result = "You win! Scissors beats Paper :)";
             humanScore++;
         }
         else if (humanChoice == "scissors" && computerChoice == "scissors"){
-            console.log("It's a draw! You both chose Scissors :o");
+            result = "It's a draw! You both chose Scissors :o";
         }
         else if(humanChoice == "rock" && computerChoice == "paper"){
-            console.log("You lose! Paper beats Rock :/");
+            result = "You lose! Paper beats Rock :/";
             computerScore++;
         }
         else if (humanChoice == "rock" && computerChoice == "scissors"){
-            console.log("You win! Rock beats Scissors :)");
+            result = "You win! Rock beats Scissors :)";
             humanScore++;
         }
         else if (humanChoice == "rock" && computerChoice == "rock"){
-            console.log("It's a draw! You both chose Rock :o");
+            result = "It's a draw! You both chose Rock :o";
         }
-    else if(humanChoice == "paper" && computerChoice == "scissors"){
-            console.log("You lose! Scissors beats Paper :/");
+        else if(humanChoice == "paper" && computerChoice == "scissors"){
+            result = "You lose! Scissors beats Paper :/";
             computerScore++;
         }
         else if (humanChoice == "paper" && computerChoice == "rock"){
-            console.log("You win! Paper beats Rock :)");
+            result = "You win! Paper beats Rock :)";
             humanScore++;
         }
         else if (humanChoice == "paper" && computerChoice == "paper"){
-            console.log("It's a draw! You both chose Paper :o");
+            result = "It's a draw! You both chose Paper :o";
+        }
+        resultsBox.textContent = result;
+        humanScoreTracker.textContent = humanScore;
+        computerScoreTracker.textContent = computerScore;
+        round++;
+
+        if (round == 5){
+
+            if(humanScore > computerScore){
+                winner.textContent = "Congratulations, YOU WIN! :D";
+            }
+            else if(computerScore < humanScore){
+                winner.textContent = "Oh no, YOU LOSE! :'("
+            }
+            else if (computerScore == humanScore){
+                winner.textContent = "It's a draw, NICE TRY :)"
+            }
+            
+
         }
 
-
-
+        
     }
-    let round = 1;
 
+    let options = document.querySelectorAll('.option');
+    options.forEach(option => {
+
+        option.addEventListener('click', () => {
+
+            if (option.classList.contains('rock')){
+                playRound('rock', getComputerChoice());
+            }
+            else if(option.classList.contains('paper')){
+                playRound('paper', getComputerChoice())
+
+            }
+            else{
+                playRound('scissors', getComputerChoice())
+            }
+
+        })
+
+    })
+    
+    /*
     while(round <= 5){
-    playRound(getHumanChoice(), getComputerChoice());
+
     round++;
     }
+    */
 
-    if(humanScore > computerScore){
-        console.log("Congratulations, YOU WIN! :D");
-    }
-    else if(computerScore < humanScore){
-        console.log("Oh no, YOU LOSE! :'(")
-    }
-    else{
-        console.log("It's a draw, NICE TRY :)")
-    }
+    /*
+    
+    */
 
 }
+
+let playBtn = document.querySelector('.play');
+playBtn.addEventListener('click', playGame);
